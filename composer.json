@@ -1,0 +1,38 @@
+{
+    "name": "otnansirk/laravel-danacore",
+    "description": "This Laravel wrapper for DANA Payment API",
+    "keywords": [
+        "otnansirk",
+        "laravel-DANA",
+        "DANA Laravel",
+        "payment gateway",
+        "dana payment gateway",
+        "payment"
+    ],
+    "type": "library",
+    "require": {
+        "laravel/framework": "^9.19"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Otnansirk\\Danacore\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "k15",
+            "email": "krisnantobiyuh@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Otnansirk\\Danacore\\DanaCoreServiceProvider"
+            ],
+            "aliases": {
+                "DANACore": "Otnansirk\\Danacore\\Facades\\DANACore"
+            }
+        }
+    }
+}
