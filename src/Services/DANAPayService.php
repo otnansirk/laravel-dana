@@ -11,7 +11,7 @@ use Otnansirk\Danacore\Exception\DANACreateOrderException;
 use Otnansirk\Danacore\Exception\DANAPayGetTokenException;
 use Otnansirk\Danacore\Exception\DANAPayUnBindingAllException;
 
-class DanaPayService
+class DANAPayService
 {
 
     /**
