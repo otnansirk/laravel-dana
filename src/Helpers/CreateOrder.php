@@ -1,6 +1,6 @@
 <?php
 
-namespace Otnansirk\Danacore\Helpers;
+namespace Otnansirk\Dana\Helpers;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;

@@ -1,5 +1,5 @@
 {
-    "name": "otnansirk/laravel-danacore",
+    "name": "otnansirk/laravel-dana",
     "description": "This Laravel wrapper for DANA Payment API",
     "keywords": [
         "otnansirk",
@@ -16,19 +16,20 @@
         }
     ],
     "type": "library",
+    "minimum-stability": "dev",
     "require": {
         "laravel/framework": "^8.75"
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Otnansirk\\Danacore\\": "src/"
+            "Otnansirk\\Dana\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Otnansirk\\Danacore\\DanaCoreServiceProvider"
+                "Otnansirk\\Dana\\DanaCoreServiceProvider"
             ]
         }
     }

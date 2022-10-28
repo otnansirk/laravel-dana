@@ -1,6 +1,6 @@
 <?php
 
-namespace Otnansirk\Danacore\Facades;
+namespace Otnansirk\Dana\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

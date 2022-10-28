@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Otnansirk\Danacore\Exception;
+namespace Otnansirk\Dana\Exception;
 
 use LogicException;
 

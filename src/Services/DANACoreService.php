@@ -1,14 +1,14 @@
 <?php
-namespace Otnansirk\Danacore\Services;
+namespace Otnansirk\Dana\Services;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use Otnansirk\Danacore\Exception\DANACoreException;
-use Otnansirk\Danacore\Exception\DANASignSignatureException;
-use Otnansirk\Danacore\Exception\DANAVerifySignatureException;
+use Otnansirk\Dana\Exception\DANACoreException;
+use Otnansirk\Dana\Exception\DANASignSignatureException;
+use Otnansirk\Dana\Exception\DANAVerifySignatureException;
 
 
 class DANACoreService

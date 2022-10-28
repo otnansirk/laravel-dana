@@ -1,11 +1,10 @@
 <?php
 
-namespace Otnansirk\Danacore;
+namespace Otnansirk\Dana;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Otnansirk\Danacore\Services\DANAPayService;
-use Otnansirk\Danacore\Services\DANACoreService;
+use Otnansirk\Dana\Services\DANAPayService;
+use Otnansirk\Dana\Services\DANACoreService;
 
 class DanaCoreServiceProvider extends ServiceProvider
 {

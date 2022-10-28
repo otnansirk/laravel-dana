@@ -1,5 +1,5 @@
 <?php
-namespace Otnansirk\Danacore\Validation;
+namespace Otnansirk\Dana\Validation;
 
 use Illuminate\Support\Arr;
 use Otnansirk\Danacore\Exception\DANAException;

@@ -1,15 +1,15 @@
 <?php
-namespace Otnansirk\Danacore\Services;
+namespace Otnansirk\Dana\Services;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Otnansirk\Danacore\Facades\DANACore;
-use Otnansirk\Danacore\Helpers\CreateOrder;
-use Otnansirk\Danacore\Validation\Validation;
-use Otnansirk\Danacore\Exception\DANAException;
-use Otnansirk\Danacore\Exception\DANACreateOrderException;
-use Otnansirk\Danacore\Exception\DANAPayGetTokenException;
-use Otnansirk\Danacore\Exception\DANAPayUnBindingAllException;
+use Otnansirk\Dana\Facades\DANACore;
+use Otnansirk\Dana\Helpers\CreateOrder;
+use Otnansirk\Dana\Validation\Validation;
+use Otnansirk\Dana\Exception\DANAException;
+use Otnansirk\Dana\Exception\DANACreateOrderException;
+use Otnansirk\Dana\Exception\DANAPayGetTokenException;
+use Otnansirk\Dana\Exception\DANAPayUnBindingAllException;
 
 class DANAPayService
 {
