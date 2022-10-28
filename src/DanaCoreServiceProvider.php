@@ -16,12 +16,8 @@ class DanaCoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register('Otnansirk\Danacore\DanaCoreServiceProvider');
         $this->app->bind('DANACore', DANACoreService::class);
         $this->app->bind('DANAPay', DANAPayService::class);
-
-        $loader = AliasLoader::getInstance();
-        $loader->alias('DANA', \Otnansirk\Danacore\Facades\DANAPay::class);
     }
 
     /**

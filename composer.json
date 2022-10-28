@@ -31,7 +31,7 @@
                 "Otnansirk\\Danacore\\DanaCoreServiceProvider"
             ],
             "aliases": {
-                "DANACore": "Otnansirk\\Danacore\\Facades\\DANACore"
+                "DANA": "Otnansirk\\Danacore\\Facades\\DANACore"
             }
         }
     }
