@@ -9,6 +9,12 @@
         "dana payment gateway",
         "payment"
     ],
+    "authors": [
+        {
+            "name": "k15",
+            "email": "krisnantobiyuh@gmail.com"
+        }
+    ],
     "type": "library",
     "require": {
         "laravel/framework": "^8.75"
@@ -19,20 +25,11 @@
             "Otnansirk\\Danacore\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "k15",
-            "email": "krisnantobiyuh@gmail.com"
-        }
-    ],
     "extra": {
         "laravel": {
             "providers": [
                 "Otnansirk\\Danacore\\DanaCoreServiceProvider"
-            ],
-            "aliases": {
-                "DANA": "Otnansirk\\Danacore\\Facades\\DANACore"
-            }
+            ]
         }
     }
 }
