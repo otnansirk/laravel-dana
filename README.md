@@ -22,7 +22,7 @@ php artisan vendor:publish --provider="Otnansirk\Danacore\DanaCoreServiceProvide
 # How to Use
 All config store to `/configs/dana.php`. Customize evrything you need.
 
-## Funcions
+## Functions
 
 ### 1. Create order | `DANAPay::createOrder($orderData)`
 ```
@@ -102,7 +102,7 @@ Ref: https://dashboard.dana.id/api-docs/read/32
     DANAPay::profile($accessToken);
 ```
 
-You can get value for `$accessToken` DANAPay::getToken function <br>
+You can get value for `$accessToken` from DANAPay::getToken function <br>
 Ref: https://dashboard.dana.id/api-docs/read/38
 
 ### 5. Unbinding Access Token | DANAPay::unBindAllAccount()
