@@ -5,7 +5,7 @@ This Laravel wrapper/library for DANA Payment API. Visit https://dana.id for mor
 
 #### 1. You can install the package via composer.
 ```
-composer require otnansirk/laravel-danacore
+composer require otnansirk/laravel-dana
 ```
 #### 2. Optional : The service provider will automatically get registered. Or you my manually add the service provider in your `configs/app.php` file.
 ```
