@@ -11,12 +11,12 @@ composer require otnansirk/laravel-dana
 ```
 'providers' => [
     // ...
-    Otnansirk\Danacore\DanaCoreServiceProvider::class,
+    Otnansirk\Dana\DanaCoreServiceProvider::class,
 ];
 ``` 
 #### 3. You should publish the `config/dana.php` config file with this php artisan command.
 ```
-php artisan vendor:publish --provider="Otnansirk\Danacore\DanaCoreServiceProvider"
+php artisan vendor:publish --provider="Otnansirk\Dana\DanaCoreServiceProvider"
 ```
 
 # How to Use
