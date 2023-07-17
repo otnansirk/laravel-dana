@@ -18,7 +18,7 @@
     "type": "library",
     "minimum-stability": "dev",
     "require": {
-        "laravel/framework": "^8.75"
+        "laravel/framework": "^9.19"
     },
     "license": "MIT",
     "autoload": {
