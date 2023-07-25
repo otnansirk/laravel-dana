@@ -25,12 +25,12 @@ class DANACoreService
     public static function getReqHeader(): array
     {
         return [
-            "version"   => config('dana.version'),
-            "clientId"  => config('dana.client_id'),
+            "version"      => config('dana.version'),
+            "clientId"     => config('dana.client_id'),
             "clientSecret" => config('dana.client_secret'),
-            "reqTime"   => date(config("dana.date_format")),
-            "reqMsgId"  => Str::uuid()->toString(),
-            "reserve"   => "{}"
+            "reqTime"      => date(config("dana.date_format")),
+            "reqMsgId"     => Str::uuid()->toString(),
+            "reserve"      => "{}"
         ];
     }
 
@@ -42,10 +42,10 @@ class DANACoreService
     public static function getResHeader(): array
     {
         return [
-            "version"   => config('dana.version'),
-            "clientId"  => config('dana.client_id'),
-            "respTime"  => date(config("dana.date_format")),
-            "reqMsgId"  => Str::uuid()->toString(),
+            "version"  => config('dana.version'),
+            "clientId" => config('dana.client_id'),
+            "respTime" => date(config("dana.date_format")),
+            "reqMsgId" => Str::uuid()->toString(),
         ];
     }
 
@@ -57,20 +57,21 @@ class DANACoreService
      * @param array $bodys
      * @return DANACoreService
      */
-    public static function api(string $path, array $heads=[], array $bodys = []): DANACoreService
+    public static function api(string $path, array $heads = [], array $bodys = []): DANACoreService
     {
-        $defaultHead = self::getReqHeader();
-        $request = [
+        $defaultHead      = self::getReqHeader();
+        $request          = [
             "head" => array_merge($defaultHead, $heads),
             "body" => $bodys
         ];
         $payloadParsedAry = [
-            "request" => $request,
+            "request"   => $request,
             "signature" => self::signSignature($request)
         ];
+
         $res = Http::post(config('dana.api_url') . $path, $payloadParsedAry);
 
-        Log::info("Request DANA To ".config('dana.api_url'));
+        Log::info("Request DANA To " . config('dana.api_url'));
         Log::info($payloadParsedAry);
         Log::info("Response DANA");
         Log::info($res->json());
@@ -82,8 +83,8 @@ class DANACoreService
         }
 
         self::$danaData = $res;
-        self::$heads = $heads;
-        self::$bodys = $bodys;
+        self::$heads    = $heads;
+        self::$bodys    = $bodys;
         return new self;
     }
 
@@ -106,8 +107,8 @@ class DANACoreService
     {
         $data = json_decode(self::$danaData->body())->response;
 
-        return (object)[
-            "code"   => ($data->body->resultInfo->resultCode !== "SUCCESS") ? 400: 200,
+        return (object) [
+            "code"   => ($data->body->resultInfo->resultCode !== "SUCCESS") ? 400 : 200,
             "status" => $data->body->resultInfo->resultCode,
             "msg"    => $data->body->resultInfo->resultMsg
         ];
@@ -120,13 +121,13 @@ class DANACoreService
      */
     public function body(): Collection
     {
-        $msg  = (array)$this->message();
-        $resp = collect((array)json_decode(self::$danaData->body())->response);
+        $msg  = (array) $this->message();
+        $resp = collect((array) json_decode(self::$danaData->body())->response);
         $data = collect($resp->get('body'))
-                ->put(
-                    'transactionTime',
-                    $resp->get('head')->respTime
-                );
+            ->put(
+                'transactionTime',
+                $resp->get('head')->respTime
+            );
         return (collect($msg)->merge($data->toArray()));
     }
 
@@ -140,7 +141,7 @@ class DANACoreService
      */
     public static function signSignature(array $data): string
     {
-        $signature = '';
+        $signature  = '';
         $privateKey = config("dana.ssh_private_key", "");
         if (!$privateKey) {
             throw new DANASignSignatureException("Please set your app private key. SSH Private Key");
@@ -151,7 +152,7 @@ class DANACoreService
             $privateKey,
             OPENSSL_ALGO_SHA256
         );
-    
+
         return base64_encode($signature);
     }
 

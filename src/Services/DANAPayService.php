@@ -22,9 +22,9 @@ class DANAPayService
      */
     public static function getToken(string $authCode): Collection
     {
-        $path = "/dana/oauth/auth/applyToken.htm";
+        $path  = "/dana/oauth/auth/applyToken.htm";
         $heads = [
-            "function"  => "dana.oauth.auth.applyToken"
+            "function" => "dana.oauth.auth.applyToken"
         ];
         $bodys = [
             "grantType" => "AUTHORIZATION_CODE",
@@ -35,12 +35,12 @@ class DANAPayService
         if ($data->message()->status !== "SUCCESS") {
             throw new DANAPayGetTokenException($data->message()->msg, $data->message()->code);
         }
-        
+
         return collect([
-            "token" => $data->body()->get('accessTokenInfo')->accessToken,
+            "token"         => $data->body()->get('accessTokenInfo')->accessToken,
             "refresh_token" => $data->body()->get('accessTokenInfo')->accessToken,
-            "expires_in" => $data->body()->get('accessTokenInfo')->expiresIn,
-            "status" => $data->body()->get('accessTokenInfo')->tokenStatus
+            "expires_in"    => $data->body()->get('accessTokenInfo')->expiresIn,
+            "status"        => $data->body()->get('accessTokenInfo')->tokenStatus
         ]);
     }
 
@@ -51,12 +51,12 @@ class DANAPayService
      */
     public function unBindAllAccount(): Collection
     {
-        $path = "/dana/oauth/unbind/revokeAllTokens.htm";
+        $path  = "/dana/oauth/unbind/revokeAllTokens.htm";
         $heads = [
-            "function"  => "dana.oauth.unbind.revokeAllTokens"
+            "function" => "dana.oauth.unbind.revokeAllTokens"
         ];
         $bodys = [
-			"merchantId" => config("dana.merchant_id")
+            "merchantId" => config("dana.merchant_id")
         ];
 
         $data = DanaCore::api($path, $heads, $bodys);
@@ -74,29 +74,29 @@ class DANAPayService
      */
     public function profile(string $accessToken): Collection
     {
-        $path = "/dana/member/query/queryUserProfile.htm";
+        $path  = "/dana/member/query/queryUserProfile.htm";
         $heads = [
-            "function"  => "dana.member.query.queryUserProfile",
+            "function"    => "dana.member.query.queryUserProfile",
             "accessToken" => $accessToken
         ];
         $bodys = [
             "userResources" => config("dana.user_resources"),
         ];
-        $data = DanaCore::api($path, $heads, $bodys);
-        
+        $data  = DanaCore::api($path, $heads, $bodys);
+
         if ($data->message()->status !== "SUCCESS") {
             throw new DANAException($data->message()->msg, $data->message()->code);
         }
 
         $res = collect($data->body()->get('userResourceInfos'))
-                ->map(function ($val) {
-                    return [strtolower($val->resourceType) => $val->value];
-                })
-                ->flatMap(function ($values) {
-                    return $values;
-                });
-        $res->put('topup_url', $res->get("topup_url")."?ott=".$res->get("ott"));
-        $res->put('transaction_url', $res->get("transaction_url")."?ott=".$res->get("ott"));
+            ->map(function ($val) {
+                return [strtolower($val->resourceType) => $val->value];
+            })
+            ->flatMap(function ($values) {
+                return $values;
+            });
+        $res->put('topup_url', $res->get("topup_url") . "?ott=" . $res->get("ott"));
+        $res->put('transaction_url', $res->get("transaction_url") . "?ott=" . $res->get("ott"));
         $res->forget('ott');
 
         return $res;
@@ -112,7 +112,7 @@ class DANAPayService
     public function createOrder(array $bodys): Collection
     {
 
-        $path = "/dana/acquiring/order/createOrder.htm";
+        $path  = "/dana/acquiring/order/createOrder.htm";
         $heads = [
             "function" => "dana.acquiring.order.createOrder"
         ];
@@ -122,18 +122,18 @@ class DANAPayService
         $res       = DanaCore::api($path, $heads, $payload);
 
         if ($res->message()->status !== "SUCCESS") {
-            throw new DANACreateOrderException("DANA ". $res->message()->msg, $res->message()->code);
+            throw new DANACreateOrderException("DANA " . $res->message()->msg, $res->message()->code);
         }
 
         return $res->body()
-                ->forget(["resultInfo", "code", "status", "msg"])
-                ->map(function ($val, $key) {
-                    $data = ($key === 'transactionTime') ? \Carbon\Carbon::parse($val): $val;
-                    return [$key => $data];
-                })
-                ->flatMap(function ($values) {
-                    return $values;
-                });
+            ->forget(["resultInfo", "code", "status", "msg"])
+            ->map(function ($val, $key) {
+                $data = ($key === 'transactionTime') ? \Carbon\Carbon::parse($val) : $val;
+                return [$key => $data];
+            })
+            ->flatMap(function ($values) {
+                return $values;
+            });
     }
 
     /**
@@ -148,16 +148,16 @@ class DANAPayService
         Validation::terminalType($terminalType);
 
         $baseAPIUrl = config("dana.web_url");
-        $path = "/d/portal/oauth?";
-        $params = [
+        $path       = "/d/portal/oauth?";
+        $params     = [
             "clientId"     => config("dana.client_id"),
             "scopes"       => config("dana.oauth_scopes"),
             "requestId"    => Str::uuid()->toString(),
             "terminalType" => $terminalType,
             "redirectUrl"  => $redirectUrl
         ];
-        
-        $oauthUrl  = $baseAPIUrl.$path;
+
+        $oauthUrl = $baseAPIUrl . $path;
         $oauthUrl .= http_build_query($params);
 
         return $oauthUrl;
@@ -191,16 +191,16 @@ class DANAPayService
         $optionalHeader = [
             "function" => "dana.acquiring.order.finishNotify",
         ];
-        $body = [
+        $body           = [
             "resultInfo" => $resultInfo
         ];
-        $response = [
+        $response       = [
             "head" => array_merge($header, $optionalHeader),
             "body" => $body
         ];
 
         return [
-            "response" => $response,
+            "response"  => $response,
             "signature" => DanaCore::signSignature($response)
         ];
     }
