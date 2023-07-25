@@ -13,16 +13,20 @@ class CreateOrder
     public $merchantId;
     public $productCode;
     public $envInfo;
+    public $currency;
+    public $body;
+    public $shopInfo;
+    public $paymentPreference;
 
     public function __construct(array $body)
     {
-        $this->currency    = "IDR";
-        $this->body        = $body;
-        $this->order       = Arr::get($body, "order",[]);
-        $this->envInfo     = Arr::get($body, "envInfo",[]);
-        $this->shopInfo    = Arr::get($body, "shopInfo",[]);
-        $this->productCode = Arr::get($body, "productCode", "");
-        $this->merchantId  = config("dana.merchant_id", "");
+        $this->currency          = "IDR";
+        $this->body              = $body;
+        $this->order             = Arr::get($body, "order", []);
+        $this->envInfo           = Arr::get($body, "envInfo", []);
+        $this->shopInfo          = Arr::get($body, "shopInfo", []);
+        $this->productCode       = Arr::get($body, "productCode", "");
+        $this->merchantId        = config("dana.merchant_id", "");
         $this->paymentPreference = Arr::get($body, "paymentPreference", []);
     }
 
@@ -58,18 +62,18 @@ class CreateOrder
     {
         $goods = collect(Arr::get($this->order, "goods", []))->map(function ($good) {
             return [
-                "merchantGoodsId" => Arr::get($good, "merchantGoodsId", ""),
-                "description"     => Arr::get($good, "description", ""),
-                "category"        => Arr::get($good, "category", ""),
-                "price" => [
+                "merchantGoodsId"    => Arr::get($good, "merchantGoodsId", ""),
+                "description"        => Arr::get($good, "description", ""),
+                "category"           => Arr::get($good, "category", ""),
+                "price"              => [
                     "currency" => Arr::get($good, "price.currency", $this->currency),
                     "value"    => Arr::get($good, "price.value", 0)
                 ],
-                "unit"        => Arr::get($good, "unit", ""),
-                "quantity"    => Arr::get($good, "quantity", ""),
-                "snapshotUrl" => Arr::get($good, "snapshotUrl", "[]"),
+                "unit"               => Arr::get($good, "unit", ""),
+                "quantity"           => Arr::get($good, "quantity", ""),
+                "snapshotUrl"        => Arr::get($good, "snapshotUrl", "[]"),
                 "merchantShippingId" => Arr::get($good, "merchantShippingId", ""),
-                "extendInfo"  => Arr::get($good, "extendInfo", ""),
+                "extendInfo"         => Arr::get($good, "extendInfo", ""),
             ];
         })->toArray();
 
@@ -78,50 +82,52 @@ class CreateOrder
                 "merchantShippingId" => Arr::get($shippingInfo, "merchantShippingId", ""),
                 "trackingNo"         => Arr::get($shippingInfo, "trackingNo", ""),
                 "carrier"            => Arr::get($shippingInfo, "carrier", ""),
-                "chargeAmount" => [
+                "chargeAmount"       => [
                     "currency" => Arr::get($shippingInfo, "chargeAmount.currency", ""),
                     "value"    => Arr::get($shippingInfo, "chargeAmount.value", "")
                 ],
-                "countryName" => Arr::get($shippingInfo, "countryName", ""),
-                "stateName"   => Arr::get($shippingInfo, "stateName", ""),
-                "cityName"    => Arr::get($shippingInfo, "cityName", ""),
-                "areaName"    => Arr::get($shippingInfo, "areaName", ""),
-                "address1"    => Arr::get($shippingInfo, "address1", ""),
-                "address2"    => Arr::get($shippingInfo, "address2", ""),
-                "firstName"   => Arr::get($shippingInfo, "firstName", ""),
-                "lastName"    => Arr::get($shippingInfo, "lastName", ""),
-                "mobileNo"    => Arr::get($shippingInfo, "mobileNo", ""),
-                "phoneNo"     => Arr::get($shippingInfo, "phoneNo", ""),
-                "zipCode"     => Arr::get($shippingInfo, "zipCode", ""),
-                "email"       => Arr::get($shippingInfo, "email", ""),
-                "faxNo"       => Arr::get($shippingInfo, "faxNo", "")
+                "countryName"        => Arr::get($shippingInfo, "countryName", ""),
+                "stateName"          => Arr::get($shippingInfo, "stateName", ""),
+                "cityName"           => Arr::get($shippingInfo, "cityName", ""),
+                "areaName"           => Arr::get($shippingInfo, "areaName", ""),
+                "address1"           => Arr::get($shippingInfo, "address1", ""),
+                "address2"           => Arr::get($shippingInfo, "address2", ""),
+                "firstName"          => Arr::get($shippingInfo, "firstName", ""),
+                "lastName"           => Arr::get($shippingInfo, "lastName", ""),
+                "mobileNo"           => Arr::get($shippingInfo, "mobileNo", ""),
+                "phoneNo"            => Arr::get($shippingInfo, "phoneNo", ""),
+                "zipCode"            => Arr::get($shippingInfo, "zipCode", ""),
+                "email"              => Arr::get($shippingInfo, "email", ""),
+                "faxNo"              => Arr::get($shippingInfo, "faxNo", "")
             ];
         })->toArray();
 
 
-        $orderData = [
-            "orderTitle"  => Arr::get($this->order, "orderTitle", ""),
-            "orderAmount" => [
+        $orderData    = [
+            "orderTitle"        => Arr::get($this->order, "orderTitle", ""),
+            "orderAmount"       => [
                 "currency" => Arr::get($this->order, "orderAmount.currency", $this->currency),
                 "value"    => Arr::get($this->order, "orderAmount.value", 0)
                 // Default in Dana is use cent. so is value is 100 its equivalent to 1 Rp
                 // Ref: https://dashboard.dana.id/api-docs/read/31#Money
             ],
-            "merchantTransId"   => Str::uuid()->toString(),
+            "merchantTransId"   => Arr::get($this->order, "merchantTransId", Str::uuid()->toString()),
             "merchantTransType" => Arr::get($this->order, "merchantTransType", "APP"),
             "orderMemo"         => Arr::get($this->order, "orderMemo", ""),
-            "createdTime"       => Arr::get($this->order,
-                                    "createdTime",
-                                    Carbon::now()->format(config("dana.date_format"))
-                                ),
-            "expiryTime"        => Arr::get($this->order,
-                                    "expiryTime",
-                                    Carbon::now()
-                                        ->addMinutes(config("dana.expired_after", 60))
-                                        ->format(config("dana.date_format"))
-                                ),
-            "goods"        => $goods,
-            "shippingInfo" => $shippingInfo
+            "createdTime"       => Arr::get(
+                $this->order,
+                "createdTime",
+                Carbon::now()->format(config("dana.date_format"))
+            ),
+            "expiryTime"        => Arr::get(
+                $this->order,
+                "expiryTime",
+                Carbon::now()
+                    ->addMinutes(config("dana.expired_after", 60))
+                    ->format(config("dana.date_format"))
+            ),
+            "goods"             => $goods,
+            "shippingInfo"      => $shippingInfo
         ];
         $this->oroder = collect($orderData);
 
@@ -209,28 +215,29 @@ class CreateOrder
     {
         if (collect($this->paymentPreference)->isNotEmpty()) {
             $payOptionBills = collect(Arr::get($this->paymentPreference, "payOptionBills", []))
-                                ->map(function ($payOption) {
-                                    return [
-                                        "payOption" => Arr::get($payOption, "payOption", ""),
-                                        "payMethod" => Arr::get($payOption, "payMethod", ""),
-                                        "transAmount" => [
-                                            "currency" => Arr::get($payOption, "transAmount.currency", ""),
-                                            "value"    => Arr::get($payOption, "transAmount.value", "")
-                                        ],
-                                        "chargeAmount" => [
-                                            "currency" => Arr::get($payOption, "chargeAmount.currency", ""),
-                                            "value"    => Arr::get($payOption, "chargeAmount.value", "")
-                                        ],
-                                        "payerAccountNo"   => Arr::get($payOption, "payerAccount", ""),
-                                        "cardCacheToken"   => Arr::get($payOption, "cardCacheToken", ""),
-                                        "saveCardAfterPay" => Arr::get($payOption, "saveCardAfterPay", ""),
-                                        "channelInfo"      => Arr::get($payOption, "channelInfo", ""),
-                                        "issuingCountry"   => Arr::get($payOption, "issuingCountry", ""),
-                                        "assetType"        => Arr::get($payOption, "assetType", ""),
-                                        "extendInfo"       => Arr::get($payOption, "extendInfo", "")
-                                    ];
-                                }
-                            )->toArray();
+                ->map(
+                    function ($payOption) {
+                        return [
+                            "payOption"        => Arr::get($payOption, "payOption", ""),
+                            "payMethod"        => Arr::get($payOption, "payMethod", ""),
+                            "transAmount"      => [
+                                "currency" => Arr::get($payOption, "transAmount.currency", ""),
+                                "value"    => Arr::get($payOption, "transAmount.value", "")
+                            ],
+                            "chargeAmount"     => [
+                                "currency" => Arr::get($payOption, "chargeAmount.currency", ""),
+                                "value"    => Arr::get($payOption, "chargeAmount.value", "")
+                            ],
+                            "payerAccountNo"   => Arr::get($payOption, "payerAccount", ""),
+                            "cardCacheToken"   => Arr::get($payOption, "cardCacheToken", ""),
+                            "saveCardAfterPay" => Arr::get($payOption, "saveCardAfterPay", ""),
+                            "channelInfo"      => Arr::get($payOption, "channelInfo", ""),
+                            "issuingCountry"   => Arr::get($payOption, "issuingCountry", ""),
+                            "assetType"        => Arr::get($payOption, "assetType", ""),
+                            "extendInfo"       => Arr::get($payOption, "extendInfo", "")
+                        ];
+                    }
+                )->toArray();
 
             return [
                 "paymentPreference" => [
