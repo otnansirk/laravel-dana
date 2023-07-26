@@ -3,6 +3,7 @@
 namespace Otnansirk\Dana;
 
 use Illuminate\Support\ServiceProvider;
+use Otnansirk\Dana\Helpers\Calculation;
 use Otnansirk\Dana\Services\DANAPayService;
 use Otnansirk\Dana\Services\DANACoreService;
 
@@ -17,6 +18,7 @@ class DanaCoreServiceProvider extends ServiceProvider
     {
         $this->app->bind('DANACore', DANACoreService::class);
         $this->app->bind('DANAPay', DANAPayService::class);
+        $this->app->bind('DANACalculation', Calculation::class);
     }
 
     /**
@@ -27,7 +29,7 @@ class DanaCoreServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/dana.php' => config_path('dana.php'),
+            __DIR__ . '/../config/dana.php' => config_path('dana.php'),
         ]);
     }
 }
