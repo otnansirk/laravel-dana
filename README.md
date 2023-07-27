@@ -13,7 +13,7 @@ composer require otnansirk/laravel-dana
     // ...
     Otnansirk\Dana\DanaCoreServiceProvider::class,
 ];
-``` 
+```
 #### 3. You should publish the `config/dana.php` config file with this php artisan command.
 ```
 php artisan vendor:publish --provider="Otnansirk\Dana\DanaCoreServiceProvider"
@@ -123,6 +123,15 @@ Ref: https://dashboard.dana.id/api-docs/read/46
 ```
 This function will generate valid response for DANA API.<br>
 `$status` is boolean data type.
+
+### 6. Function for calculation MDR
+```
+<?php
+
+    $grossAmount = 100000;
+    DANACalculation::calculateMDR($grossAmount);
+```
+This function will calculate MDR fee for DANA.
 
 # Contribution
 This project is far from perfect. many DANA APIs that have not been implemented. I would be very happy if any of you could contribute for this project.
