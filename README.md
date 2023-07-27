@@ -128,10 +128,12 @@ This function will generate valid response for DANA API.<br>
 ```
 <?php
 
-    $grossAmount = 100000;
-    DANACalculation::calculateMDR($grossAmount);
+    $payAmount = 100000;
+    $payMethod = 'BALANCE';
+    DANACalculation::calculateMDR($payAmount, $payMethod);
 ```
 This function will calculate MDR fee for DANA.
+You will get value $payMethod and $payAmount from callback DANA.
 
 # Contribution
 This project is far from perfect. many DANA APIs that have not been implemented. I would be very happy if any of you could contribute for this project.
