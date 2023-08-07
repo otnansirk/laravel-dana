@@ -9,10 +9,14 @@
         "dana payment gateway",
         "payment"
     ],
+    "support": {
+        "issues": "https://github.com/otnansirk/laravel-dana/issues",
+        "source": "https://github.com/otnansirk/laravel-dana"
+    },
     "authors": [
         {
-            "name": "k15",
-            "email": "krisnantobiyuh@gmail.com"
+            "name": "otnansirk",
+            "email": "iam.otnansirk@gmail.com"
         }
     ],
     "type": "library",
