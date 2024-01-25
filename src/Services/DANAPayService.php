@@ -163,7 +163,7 @@ class DANAPayService
             "code"            => data_get($res->body(), 'code', 200),
             "message"         => data_get($res->body(), 'msg', ""),
             "goods"           => data_get($res->body(), 'goods', ""),
-            "status"          => data_get($res->body(), 'resultInfo', ""),
+            "status"          => data_get($res->body(), 'statusDetail', ""),
             "acquirementId"   => data_get($res->body(), 'acquirementId', ""),
             "merchantTransId" => data_get($res->body(), 'merchantTransId', ""),
         ]);
