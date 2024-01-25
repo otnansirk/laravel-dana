@@ -73,6 +73,7 @@ Ref: https://dashboard.dana.id/api-docs/read/33
 ```php
 $acquirementId = "20240125111212800110166050101920928";
 DANAPay::queryOrder($acquirementId);
+
 ```
 You can get transaction detail and status transaction with this method <br>
 Ref: https://dashboard.dana.id/api-docs/read/42
