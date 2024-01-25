@@ -69,17 +69,25 @@ DANAPay::createOrder($orderData);
 About all possible payloads for `$orderData` please check the official DANA documentation. <br>
 Ref: https://dashboard.dana.id/api-docs/read/33
 
-### 2. Get oAuth URL | DANAPay::generateOauthUrl($terminalType, $redirectUrl);
+### 2. Get Transaction by acquirementId | DANAPay::queryOrder($acquirementId);
+```php
+$acquirementId = "20240125111212800110166050101920928";
+DANAPay::queryOrder($terminalType);
+```
+You can get transaction detail and status transaction with this method <br>
+Ref: https://dashboard.dana.id/api-docs/read/42
+
+### 3. Get oAuth URL | DANAPay::generateOauthUrl($terminalType, $redirectUrl);
 ```php
 $terminalType = "WEB";
-$redirectUrl  = "https://your-app-url.com/oauth/callback"
-DANAPay::generateOauthUrl($terminalType, $redirectUrl)
+$redirectUrl  = "https://your-app-url.com/oauth/callback";
+DANAPay::generateOauthUrl($terminalType, $redirectUrl);
 ```
 
 For more information please check the official DANA documentation. <br>
 Ref: https://dashboard.dana.id/api-docs/read/47
 
-### 3. Get Token and Refresh Token | DANAPay::getToken($authToken)
+### 4. Get Token and Refresh Token | DANAPay::getToken($authToken)
 ```php
 $authToken = "your-auth-token";
 DANAPay::getToken($authToken);
@@ -89,7 +97,7 @@ You can get value of `$authToken` from oAuth callback process. <br>
 From this function you will receive `token` and `refresh_token`. <br>
 Ref: https://dashboard.dana.id/api-docs/read/32
 
-### 4. Get User Profile | DANAPay::profile($accessToken)
+### 5. Get User Profile | DANAPay::profile($accessToken)
 ```php
 $accessToken = "your_user_profile_access_token";
 DANAPay::profile($accessToken);
@@ -98,7 +106,7 @@ DANAPay::profile($accessToken);
 You can get value for `$accessToken` from DANAPay::getToken function <br>
 Ref: https://dashboard.dana.id/api-docs/read/38
 
-### 5. Unbinding Access Token | DANAPay::unBindAllAccount()
+### 6. Unbinding Access Token | DANAPay::unBindAllAccount()
 ```php
 DANAPay::unBindAllAccount();
 ```
@@ -106,7 +114,7 @@ DANAPay::unBindAllAccount();
 This function used for revoke or unbind all access token registered from the merchant.<br>
 Ref: https://dashboard.dana.id/api-docs/read/46
 
-### 6. Function for provide callback response
+### 7. Function for provide callback response
 ```php
 $status = true;
 DANAPay::responseFinishNotifyCallback($status);
@@ -115,7 +123,7 @@ DANAPay::responseFinishNotifyCallback($status);
 This function will generate valid response for DANA API.<br>
 `$status` is boolean data type.
 
-### 6. Function for calculation MDR
+### 8. Function for calculation MDR
 ```php
 $payAmount = 100000;
 $payMethod = 'BALANCE';
