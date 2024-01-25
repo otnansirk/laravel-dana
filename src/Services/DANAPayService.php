@@ -137,6 +137,39 @@ class DANAPayService
             });
     }
 
+
+    /**
+     * To query transaction detail by DANA's acquirementId or merchantTransId.
+     * When DANA's acquirementId and merchantTransId are both provided, this API assigns
+     * a higher priority to DANA's acquirementId, merchantTransId would be ignored.
+     *
+     * @param string $acquirementId
+     * @return Collection
+     */
+    public function queryOrder(string $acquirementId): Collection
+    {
+
+        $path  = "/dana/acquiring/order/query.htm";
+        $heads = [
+            "function" => "dana.acquiring.order.query",
+        ];
+
+        $payload = [
+            "merchantId"    => config("dana.merchant_id", ""),
+            "acquirementId" => $acquirementId
+        ];
+        $res     = DanaCore::api($path, $heads, $payload);
+        return collect([
+            "code"            => data_get($res->body(), 'code', 200),
+            "message"         => data_get($res->body(), 'msg', ""),
+            "goods"           => data_get($res->body(), 'goods', ""),
+            "status"          => data_get($res->body(), 'resultInfo', ""),
+            "acquirementId"   => data_get($res->body(), 'acquirementId', ""),
+            "merchantTransId" => data_get($res->body(), 'merchantTransId', ""),
+        ]);
+    }
+
+
     /**
      * Generate url oauth
      *
