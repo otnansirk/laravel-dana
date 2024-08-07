@@ -22,7 +22,7 @@
     "type": "library",
     "minimum-stability": "dev",
     "require": {
-        "laravel/framework": "^9.19"
+        "laravel/framework": "^9.19 || ^10.0 || ^11.0"
     },
     "license": "MIT",
     "autoload": {
