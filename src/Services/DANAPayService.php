@@ -176,7 +176,6 @@ class DANAPayService
             ]
         ];
         $res     = DanaCore::api($path, $heads, $payload);
-        dd($res->body());
         return collect([
             "code"            => data_get($res->body(), 'code', 200),
             "message"         => data_get($res->body(), 'msg', ""),
