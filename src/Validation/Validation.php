@@ -1,17 +1,13 @@
 <?php
+
 namespace Otnansirk\Dana\Validation;
 
-use Illuminate\Support\Arr;
-use Otnansirk\Danacore\Exception\DANAException;
+use Otnansirk\Dana\Exception\DANAException;
 
 class Validation
 {
-    
     /**
-     * Validatae terminal type
-     *
-     * @param string $type
-     * @return boolean
+     * Validate terminal type
      */
     public static function terminalType(string $type): bool
     {

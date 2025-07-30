@@ -1,4 +1,5 @@
 <?php
+
 namespace Otnansirk\Dana\Services;
 
 use Illuminate\Support\Str;
@@ -10,17 +11,14 @@ use Otnansirk\Dana\Exception\DANACoreException;
 use Otnansirk\Dana\Exception\DANASignSignatureException;
 use Otnansirk\Dana\Exception\DANAVerifySignatureException;
 
-
 class DANACoreService
 {
-    private static $danaData;
-    private static $heads;
-    private static $bodys;
+    private static ?Response $danaData = null;
+    private static array $heads = [];
+    private static array $bodys = [];
 
     /**
      * Initialize Request Header
-     *
-     * @return array
      */
     public static function getReqHeader(): array
     {
@@ -36,8 +34,6 @@ class DANACoreService
 
     /**
      * Initialize Response Header
-     *
-     * @return array
      */
     public static function getResHeader(): array
     {
@@ -51,13 +47,8 @@ class DANACoreService
 
     /**
      * Main api function to call to DANA
-     *
-     * @param string $path
-     * @param array $heads
-     * @param array $bodys
-     * @return DANACoreService
      */
-    public static function api(string $path, array $heads = [], array $bodys = []): DANACoreService
+    public static function api(string $path, array $heads = [], array $bodys = []): self
     {
         $defaultHead      = self::getReqHeader();
         $request          = [
@@ -90,8 +81,6 @@ class DANACoreService
 
     /**
      * Return all response from http client as is
-     *
-     * @return Response
      */
     public function all(): Response
     {
@@ -100,8 +89,6 @@ class DANACoreService
 
     /**
      * Return only message code and status from dana API
-     *
-     * @return object
      */
     public function message(): object
     {
@@ -116,8 +103,6 @@ class DANACoreService
 
     /**
      * Return data body with format object json
-     *
-     * @return Collection
      */
     public function body(): Collection
     {
@@ -135,9 +120,6 @@ class DANACoreService
      * Sign signature
      * See this doc API DANA
      * https://dashboard.dana.id/api-docs/read/45
-     *
-     * @param array $bodys
-     * @return string
      */
     public static function signSignature(array $data): string
     {
@@ -157,12 +139,13 @@ class DANACoreService
     }
 
     /**
+     * Verify signature
      * @param array $data string data in json
      * @param string $signature string of signature in base64 encoded
      *
-     * @return string base 64 signature
+     * @return int|false base 64 signature
      */
-    public function verifySignature(array $data, string $signature)
+    public function verifySignature(array $data, string $signature): int|false
     {
         $publicKey = config("dana.ssh_public_key", "");
         if (!$publicKey) {
@@ -177,5 +160,4 @@ class DANACoreService
             OPENSSL_ALGO_SHA256
         );
     }
-
 }

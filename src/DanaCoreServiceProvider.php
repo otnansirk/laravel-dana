@@ -11,25 +11,28 @@ class DanaCoreServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->bind('DANACore', DANACoreService::class);
-        $this->app->bind('DANAPay', DANAPayService::class);
-        $this->app->bind('DANACalculation', Calculation::class);
+        // Use singleton for better performance across all Laravel versions
+        $this->app->singleton('DANACore', DANACoreService::class);
+        $this->app->singleton('DANAPay', DANAPayService::class);
+        $this->app->singleton('DANACalculation', Calculation::class);
     }
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
+        // Publish configuration file
         $this->publishes([
             __DIR__ . '/../config/dana.php' => config_path('dana.php'),
-        ]);
+        ], 'dana-config');
+
+        // Load configuration if not already loaded
+        if (!$this->app->configurationIsCached()) {
+            $this->mergeConfigFrom(__DIR__ . '/../config/dana.php', 'dana');
+        }
     }
 }

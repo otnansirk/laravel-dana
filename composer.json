@@ -22,12 +22,23 @@
     "type": "library",
     "minimum-stability": "dev",
     "require": {
-        "laravel/framework": "^9.19"
+        "php": "^8.1",
+        "laravel/framework": "^9.0|^10.0|^11.0|^12.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^9.0|^10.0"
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Otnansirk\\Dana\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "extra": {
@@ -36,5 +47,15 @@
                 "Otnansirk\\Dana\\DanaCoreServiceProvider"
             ]
         }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "replace": {
+        "paragonie/random_compat": "2.*"
     }
 }

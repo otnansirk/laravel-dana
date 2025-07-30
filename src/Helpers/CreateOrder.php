@@ -6,17 +6,16 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-
 class CreateOrder
 {
-    public $order;
-    public $merchantId;
-    public $productCode;
-    public $envInfo;
-    public $currency;
-    public $body;
-    public $shopInfo;
-    public $paymentPreference;
+    public array $order;
+    public string $merchantId;
+    public string $productCode;
+    public array $envInfo;
+    public string $currency;
+    public array $body;
+    public array $shopInfo;
+    public array $paymentPreference;
 
     public function __construct(array $body)
     {
@@ -32,8 +31,6 @@ class CreateOrder
 
     /**
      * Get all payload
-     *
-     * @return array
      */
     public function payload(): array
     {
@@ -55,8 +52,6 @@ class CreateOrder
 
     /**
      * Order mapper
-     *
-     * @return array
      */
     protected function order(): array
     {
@@ -102,8 +97,7 @@ class CreateOrder
             ];
         })->toArray();
 
-
-        $orderData    = [
+        $orderData = [
             "orderTitle"        => Arr::get($this->order, "orderTitle", ""),
             "orderAmount"       => [
                 "currency" => Arr::get($this->order, "orderAmount.currency", $this->currency),
@@ -129,15 +123,12 @@ class CreateOrder
             "goods"             => $goods,
             "shippingInfo"      => $shippingInfo
         ];
-        $this->oroder = collect($orderData);
 
         return $orderData;
     }
 
     /**
      * Env info
-     *
-     * @return array
      */
     protected function envInfo(): array
     {
@@ -161,8 +152,6 @@ class CreateOrder
 
     /**
      * Notification url
-     *
-     * @return array
      */
     public function notificationUrls(): array
     {
@@ -180,8 +169,6 @@ class CreateOrder
 
     /**
      * Shoping info
-     *
-     * @return array
      */
     public function shopInfo(): array
     {
@@ -198,8 +185,6 @@ class CreateOrder
 
     /**
      * Mcc
-     *
-     * @return array
      */
     public function mcc(): array
     {
@@ -211,7 +196,10 @@ class CreateOrder
         return [];
     }
 
-    public function paymentPreference()
+    /**
+     * Payment preference
+     */
+    public function paymentPreference(): array
     {
         if (collect($this->paymentPreference)->isNotEmpty()) {
             $payOptionBills = collect(Arr::get($this->paymentPreference, "payOptionBills", []))
@@ -248,5 +236,4 @@ class CreateOrder
         }
         return [];
     }
-
 }

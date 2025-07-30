@@ -1,4 +1,5 @@
 <?php
+
 namespace Otnansirk\Dana\Services;
 
 use Illuminate\Support\Str;
@@ -14,12 +15,8 @@ use Otnansirk\Dana\Exception\DANAPayUnBindingAllException;
 
 class DANAPayService
 {
-
     /**
      * Binding account to dana
-     *
-     * @param string $authCode
-     * @return Collection
      */
     public static function getToken(string $authCode): Collection
     {
@@ -47,8 +44,6 @@ class DANAPayService
 
     /**
      * Unbind access token use for merchant to revoke all tokens registered for its user
-     *
-     * @return Collection
      */
     public function unBindAllAccount(): Collection
     {
@@ -69,9 +64,6 @@ class DANAPayService
 
     /**
      * Get user profile
-     *
-     * @param string $accessToken
-     * @return Collection
      */
     public function profile(string $accessToken): Collection
     {
@@ -101,18 +93,13 @@ class DANAPayService
         $res->forget('ott');
 
         return $res;
-
     }
 
     /**
      * Create order
-     *
-     * @param array $bodys
-     * @return Collection
      */
     public function createOrder(array $bodys): Collection
     {
-
         $path  = "/dana/acquiring/order/createOrder.htm";
         $heads = [
             "function" => "dana.acquiring.order.createOrder"
@@ -137,18 +124,13 @@ class DANAPayService
             });
     }
 
-
     /**
      * To query transaction detail by DANA's acquirementId or merchantTransId.
      * When DANA's acquirementId and merchantTransId are both provided, this API assigns
      * a higher priority to DANA's acquirementId, merchantTransId would be ignored.
-     *
-     * @param string $acquirementId
-     * @return Collection
      */
     public function queryOrder(string $acquirementId): Collection
     {
-
         $path  = "/dana/acquiring/order/query.htm";
         $heads = [
             "function" => "dana.acquiring.order.query",
@@ -169,13 +151,44 @@ class DANAPayService
         ]);
     }
 
+    /**
+     * To top up request to DANA.
+     */
+    public function customerTopup(): Collection
+    {
+        $path  = "/dana/fund/agent/topup/boost/topupForUser.htm";
+        $heads = [
+            "function" => "dana.fund.agent.topup.boost.topupForUser",
+        ];
+
+        $payload = [
+            "mobileNo" => "62-8570804533",
+            "fundType" => "AGENT_TOPUP_FOR_USER_SETTLE",
+            "fundAmount" => [
+                "currency" => "IDR",
+                "value" => "1000"
+            ],
+            "requestId" => "6d59dae4c70548f18d75e3ea09b081e1",
+            "agentMode" => "NORMAL",
+            "envInfo" => [
+                "terminalType" => "APP",
+                "sourcePlatform" => "IPG"
+            ]
+        ];
+        $res     = DanaCore::api($path, $heads, $payload);
+        dd($res->body());
+        return collect([
+            "code"            => data_get($res->body(), 'code', 200),
+            "message"         => data_get($res->body(), 'msg', ""),
+            "goods"           => data_get($res->body(), 'goods', ""),
+            "status"          => data_get($res->body(), 'statusDetail', ""),
+            "acquirementId"   => data_get($res->body(), 'acquirementId', ""),
+            "merchantTransId" => data_get($res->body(), 'merchantTransId', ""),
+        ]);
+    }
 
     /**
      * Generate url oauth
-     *
-     * @param string $terminalType
-     * @param string $redirectUrl
-     * @return string
      */
     public function generateOauthUrl(string $terminalType = "WEB", string $redirectUrl = ""): string
     {
@@ -199,10 +212,8 @@ class DANAPayService
 
     /**
      * Response for finish payment notify callback
-     * @param boolean $status
-     * @return array
      */
-    public function responseFinishNotifyCallback($status = true): array
+    public function responseFinishNotifyCallback(bool $status = true): array
     {
         $header = DanaCore::getResHeader();
 
@@ -238,5 +249,4 @@ class DANAPayService
             "signature" => DanaCore::signSignature($response)
         ];
     }
-
 }

@@ -1,14 +1,11 @@
 <?php
+
 namespace Otnansirk\Dana\Helpers;
 
 class Calculation
 {
-
-
     /**
      * DANA tax
-     *
-     * @return float
      */
     public function taxValue(): float
     {
@@ -17,8 +14,6 @@ class Calculation
 
     /**
      * DANA fees
-     *
-     * @return array
      */
     public function fees(): array
     {
@@ -53,12 +48,9 @@ class Calculation
             ]
         ];
     }
+
     /**
      * Get calculation dana fee
-     *
-     * @param integer $payAmount
-     * @param string $payMethod
-     * @return array
      */
     public function calculateMDR(int $payAmount, string $payMethod): array
     {
