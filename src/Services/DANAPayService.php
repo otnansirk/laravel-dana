@@ -152,41 +152,6 @@ class DANAPayService
     }
 
     /**
-     * To top up request to DANA.
-     */
-    public function customerTopup(): Collection
-    {
-        $path  = "/dana/fund/agent/topup/boost/topupForUser.htm";
-        $heads = [
-            "function" => "dana.fund.agent.topup.boost.topupForUser",
-        ];
-
-        $payload = [
-            "mobileNo" => "62-8570804533",
-            "fundType" => "AGENT_TOPUP_FOR_USER_SETTLE",
-            "fundAmount" => [
-                "currency" => "IDR",
-                "value" => "1000"
-            ],
-            "requestId" => "6d59dae4c70548f18d75e3ea09b081e1",
-            "agentMode" => "NORMAL",
-            "envInfo" => [
-                "terminalType" => "APP",
-                "sourcePlatform" => "IPG"
-            ]
-        ];
-        $res     = DanaCore::api($path, $heads, $payload);
-        return collect([
-            "code"            => data_get($res->body(), 'code', 200),
-            "message"         => data_get($res->body(), 'msg', ""),
-            "goods"           => data_get($res->body(), 'goods', ""),
-            "status"          => data_get($res->body(), 'statusDetail', ""),
-            "acquirementId"   => data_get($res->body(), 'acquirementId', ""),
-            "merchantTransId" => data_get($res->body(), 'merchantTransId', ""),
-        ]);
-    }
-
-    /**
      * Generate url oauth
      */
     public function generateOauthUrl(string $terminalType = "WEB", string $redirectUrl = ""): string
