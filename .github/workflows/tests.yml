@@ -35,12 +35,12 @@ jobs:
       run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
     - name: Execute tests (Unit and Feature)
-      run: vendor/bin/phpunit
+      run: vendor/bin/phpunit --coverage-clover=coverage.xml
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       with:
-        type: php
+        files: coverage.xml
         name: codecov-umbrella
         fail_ci_if_error: true
         verbose: true 
