@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [3.0.0] - 2024-12-19
+## [3.0.0](https://github.com/otnansirk/laravel-dana/releases/tag/v3.0.0) — 2025-08-14
 
-### Added
+### Feat
 - Added support for Laravel 9.x, 10.x, 11.x, and 12.x
 - Updated PHP requirement to 8.1+
 - Improved service provider with configuration merging
@@ -21,27 +21,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated service provider to use version-agnostic patterns
 - Simplified test setup to work with Orchestra Testbench
 
-## [2.0.0] - 2024-12-19
+## [2.3.0](https://github.com/otnansirk/laravel-dana/releases/tag/v2.3.0) — 2024-08-07
+- **Feat:** Added support for Laravel 10 and 11
 
-### Added
-- Updated to support Laravel 11.x
-- Added PHP 8.2+ requirement
-- Modernized code with proper return types
-- Updated service provider to use singletons
-- Added comprehensive test suite
-- Improved facade documentation with IDE support
+## [2.2.1](https://github.com/otnansirk/laravel-dana/releases/tag/v2.2.1) — 2024-01-25
+- **Fix:** Resolved issue with missing or incorrect transaction status information
 
-### Changed
-- Updated all service classes with explicit return types
-- Enhanced facade classes with comprehensive PHPDoc annotations
-- Improved exception handling and validation
+## [2.2.0](https://github.com/otnansirk/laravel-dana/releases/tag/v2.2.0) — 2024-01-25
+- **Feature:** Added ability to query orders for checking transaction status
 
-## [1.0.0] - Initial Release
+## [2.1.2](https://github.com/otnansirk/laravel-dana/releases/tag/v2.1.2) — 2023-07-31
+- **Feature:** Introduced callback for MDR (Merchant Discount Rate) calculation  
+- **Bug Fixes:**  
+  - Made `merchantTransId` dynamic  
+  - Fixed MDR calculation in callback function
 
-### Added
-- Initial release of Laravel DANA Payment Package
-- Basic DANA API integration
-- Service classes for core DANA functionality
-- Facade classes for easy access
-- Configuration management
-- Basic documentation 
+## [2.0.0](https://github.com/otnansirk/laravel-dana/releases/tag/v2.0.0) — 2023-07-17
+- **Feature:** Added support for Laravel 9
+
+## [1.0.0](https://github.com/otnansirk/laravel-dana/releases/tag/v1.0.0) — 2022-11-01
+- **Initial Release:** First release :)
